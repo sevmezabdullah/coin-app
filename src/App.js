@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserData, login } from './redux/slicer/user';
+import { makeCountFive } from './redux/slicer/user';
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+  const count = useSelector((state) => state.user.count);
+  useEffect(() => {
+    dispatch(getUserData());
+    dispatch(login({ email: 'abdullahsevmez@gmail.com', password: '123456' }));
+  }, [dispatch]);
+
+  console.log(count);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <p>{count}</p>
+      <button
+        onClick={() => {
+          dispatch(makeCountFive(5));
+        }}
+      >
+        Ekle
+      </button>
+      <button
+        onClick={() => {
+          dispatch(makeCountFive(0));
+        }}
+      >
+        Çıkar
+      </button>
     </div>
   );
 }
